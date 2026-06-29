@@ -1,0 +1,18 @@
+services:
+  n8n:
+    image: n8nio/n8n
+    ports:
+      - "5678:5678"
+    env_file:
+      - .env
+    volumes:
+      - ./n8n:/home/node/.n8n
+  agent:
+    build: .
+    volumes:
+      - ./workspace:/workspace
+      - ./agent:/root/.claude
+    environment:
+      - ANTHROPIC_API_KEY=${AGENT_API_KEY}
+    stdin_open: true
+    tty: true
